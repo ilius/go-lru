@@ -3,7 +3,7 @@ package lru
 import (
 	"sync"
 
-	"github.com/dboslee/lru/internal"
+	"github.com/ilius/go-lru/internal"
 )
 
 var _ internal.LRU[int, int] = &SyncCache[int, int]{}

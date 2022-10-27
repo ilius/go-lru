@@ -1,7 +1,7 @@
 package lru
 
 import (
-	"github.com/dboslee/lru/internal"
+	"github.com/ilius/go-lru/internal"
 )
 
 var _ internal.LRU[int, int] = &Cache[int, int]{}
