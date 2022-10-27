@@ -1,9 +1,8 @@
-package lru_test
+package lru
 
 import (
 	"testing"
 
-	"github.com/dboslee/lru"
 	"github.com/stretchr/testify/require"
 )
 
@@ -16,9 +15,9 @@ func TestCapacity(t *testing.T) {
 		{100},
 	}
 
-	lru.New[int, int](lru.WithCapacity(10))
+	New[int, int](WithCapacity(10))
 	for _, tc := range tests {
-		lru := lru.New[int, int](lru.WithCapacity(tc.capacity))
+		lru := New[int, int](WithCapacity(tc.capacity))
 		for i := 0; i < tc.capacity+1; i++ {
 			lru.Set(i, i)
 		}
@@ -34,13 +33,13 @@ func TestCapacity(t *testing.T) {
 }
 
 func TestGetMissing(t *testing.T) {
-	lru := lru.New[int, int]()
+	lru := New[int, int]()
 	_, ok := lru.Get(0)
 	require.False(t, ok, "expected not ok")
 }
 
 func TestSetGet(t *testing.T) {
-	lru := lru.New[int, int]()
+	lru := New[int, int]()
 	value := 100
 
 	lru.Set(1, value)
@@ -51,7 +50,7 @@ func TestSetGet(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	lru := lru.New[int, int]()
+	lru := New[int, int]()
 
 	key, value := 1, 100
 	lru.Set(key, value)
@@ -62,14 +61,14 @@ func TestDelete(t *testing.T) {
 }
 
 func TestDeleteMissing(t *testing.T) {
-	lru := lru.New[int, int]()
+	lru := New[int, int]()
 	key := 100
 	ok := lru.Delete(key)
 	require.False(t, ok, "expected not ok")
 }
 
 func TestFlush(t *testing.T) {
-	lru := lru.New[int, int]()
+	lru := New[int, int]()
 	key, value := 1, 100
 	lru.Set(key, value)
 	require.Equal(t, lru.Len(), 1)
