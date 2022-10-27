@@ -3,7 +3,7 @@ package lru
 import (
 	"testing"
 
-	"github.com/ilius/is"
+	"github.com/ilius/is/v2"
 )
 
 func TestCapacity(t *testing.T) {

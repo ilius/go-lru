@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/ilius/go-lru/internal"
-	"github.com/ilius/is"
+	"github.com/ilius/is/v2"
 )
 
 func TestPushRemove(t *testing.T) {
