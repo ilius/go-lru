@@ -3,10 +3,11 @@ package lru
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"github.com/ilius/is"
 )
 
 func TestCapacity(t *testing.T) {
+	is := is.New(t)
 	tests := []struct {
 		capacity int
 	}{
@@ -22,60 +23,65 @@ func TestCapacity(t *testing.T) {
 			lru.Set(i, i)
 		}
 
-		require.Equal(t, tc.capacity, lru.Len(), "expected capacity to be full")
+		is.Msg("expected capacity to be full").Equal(tc.capacity, lru.Len())
 
 		_, ok := lru.Get(0)
-		require.False(t, ok, "expected key to be evicted")
+		is.Msg("expected key to be evicted").False(ok)
 
 		_, ok = lru.Get(1)
-		require.True(t, ok, "expected key to exist")
+		is.Msg("expected key to exist").True(ok)
 	}
 }
 
 func TestGetMissing(t *testing.T) {
+	is := is.New(t)
 	lru := New[int, int]()
 	_, ok := lru.Get(0)
-	require.False(t, ok, "expected not ok")
+	is.Msg("expected not ok").False(ok)
 }
 
 func TestSetGet(t *testing.T) {
+	is := is.New(t)
 	lru := New[int, int]()
 	value := 100
 
 	lru.Set(1, value)
 	value, ok := lru.Get(1)
 
-	require.True(t, ok, "expected ok")
-	require.Equal(t, value, value, "expected set value %s", value)
+	is.True(ok)
+	is.Equal(value, value)
 }
 
 func TestDelete(t *testing.T) {
+	is := is.New(t)
 	lru := New[int, int]()
 
 	key, value := 1, 100
 	lru.Set(key, value)
-	require.Equal(t, lru.Len(), 1)
+	is.Equal(lru.Len(), 1)
 
 	ok := lru.Delete(key)
-	require.True(t, ok, "expected ok")
+	is.True(ok)
 }
 
 func TestDeleteMissing(t *testing.T) {
+	is := is.New(t)
 	lru := New[int, int]()
 	key := 100
 	ok := lru.Delete(key)
-	require.False(t, ok, "expected not ok")
+	is.False(ok)
 }
 
 func TestFlush(t *testing.T) {
+	is := is.New(t)
 	lru := New[int, int]()
 	key, value := 1, 100
 	lru.Set(key, value)
-	require.Equal(t, lru.Len(), 1)
+	is.Equal(lru.Len(), 1)
 
 	lru.Flush()
-	require.Equal(t, lru.Len(), 0)
+	is.Equal(lru.Len(), 0)
 
 	_, ok := lru.Get(key)
-	require.False(t, ok, "expected not ok")
+	is.False(ok)
 }
